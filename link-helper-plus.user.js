@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            链接助手（增强版）
 // @namespace       https://github.com/YU1O/link-helper-plus
-// @version         2.3.1
+// @version         2.3.2
 // @description     基于 一个北七 的「链接助手」改造：网盘提取码自动识别与填写；文本转链接；新标签打开链接
 // @author          一个北七, YU1O
 // @icon            https://gitee.com/oneNorth7/pics/raw/master/picgo/link-helper.png
@@ -26,8 +26,8 @@
 // @grant           GM_getValue
 // @grant           GM_deleteValue
 // @grant           GM_addStyle
-// @updateURL       https://cdn.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper.user.js
-// @downloadURL     https://cdn.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper.user.js
+// @updateURL       https://cdn.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper-plus.user.js
+// @downloadURL     https://cdn.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper-plus.user.js
 // ==/UserScript==
 
 /*
@@ -73,6 +73,13 @@
  *         这正是 2.3.0 在篡改猴里显示「已被列入黑名单」的原因。
  *   版权：原作者「一个北七」的署名、@icon 与 GPL-3.0 声明原样保留；
  *         本文件基于原 2.1.2 改造，许可证全文见仓库根目录 LICENSE。
+ * 2.3.2 (2026-11-09) 更新地址对齐
+ *   修复：仓库实际文件名是 link-helper-plus.user.js，而 2.3.1 的两个 URL 字段
+ *         写的是 link-helper.user.js，指向不存在的文件，检查更新会拿到 404，
+ *         自动更新等于失效。现改用仓库实际文件名。
+ *   版本：@version 同步递增到 2.3.2——只改 URL 不升版本的话，Tampermonkey
+ *         比较版本号后认为没有新版本，不会去拉取新文件。
+ *   代码正文未改动。
  */
 
 (function () {
