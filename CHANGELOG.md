@@ -2,6 +2,12 @@
 
 基于 [一个北七 的「链接助手」](https://github.com/oneNorth7/LinkHelper) 2.1.2 改造。完整的技术说明同时写在脚本头部注释里。
 
+## 2.3.5 (2026-11-09) — 编辑器防护与版本标记
+
+- 新增运行时可编辑区防护：`isEditableContext()` 在 mousedown / mouseup 两个入口检查 `designMode`、`isContentEditable`、`contenteditable` 属性、`role=textbox`、`input` / `textarea` / `select`，命中直接放过。此前只有 9 条 `@exclude`，且只在页面加载时判定一次：SPA 从阅读页跳到编辑页不刷新页面，名单外的在线文档站点也拦不住；在编辑器里 `replaceWith` 会破坏内容模型、选区与撤销栈，甚至把改动同步到服务端。
+- 发版改用 `v<版本号>` tag 标记每一版，便于回溯。**更新地址仍保持 jsDelivr `@main`**：写死某个版本 tag 会让客户端取到的 `@version` 永远不变，自动更新直接失效；GitHub Releases 的 latest 地址虽能绕开 CDN 缓存，但每版都要建 Release 与上传资产，按维护者决定不采用。推送后 purge 一次 CDN 缓存即可。
+- `@version` 递增到 2.3.5；README 补发版流程与防护说明。
+
 ## 2.3.4 (2026-11-09) — 链接样式收敛
 
 - 按用户要求**去掉转换链接的淡蓝背景色与圆角**，只保留蓝色文字 + 下划线。页面底色不再被脚本改动，避免与站点自身的底色、代码块、引用块冲突。

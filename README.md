@@ -17,10 +17,11 @@
 
 ## 自动更新
 
-脚本头部同时声明了 `@updateURL` 与 `@downloadURL`，均指向上述 jsDelivr 地址：
+脚本头部同时声明了 `@updateURL` 与 `@downloadURL`，均指向上述 jsDelivr 地址。
 
 - 每次发版**必须递增 `@version`**，管理器靠版本号判断是否有更新，只改内容不改号不会拉取；
-- jsDelivr 的 `@main` 约有 12 小时缓存，刚提交完立刻点「检查更新」可能仍拿到旧版，手动粘贴一次可绕过；
+- 每次发版另外打一个 `v<版本号>` 的 tag，用来回溯任意一版。tag 不参与更新地址——把地址写死成某个版本 tag，客户端取到的 `@version` 永远不变，自动更新会直接失效；
+- jsDelivr 的 `@main` 约有 12 小时缓存。推送后打开 <https://purge.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper-plus.user.js> 刷新一次，一般立刻生效；个别边缘节点同步较慢时，在管理器编辑器里粘贴一次即可；
 - 若从 GreasyFork 安装，GreasyFork 会剥掉这两个字段并接管更新，请以那边为准。
 
 ## 功能
@@ -52,7 +53,7 @@
 ## 注意
 
 - `@namespace` 与原版不同，管理器视其为**独立脚本**；`GM_setValue` 按脚本隔离，原版存的配置不会继承，装完需重设一次。
-- 9 条 `@exclude` 排除协作文档 / 编辑器站点（kdocs、Google Docs、Notion、wolai、语雀 `/edit`、写作猫、mail 等），`@noframes` 不在 iframe 中运行。
+- 9 条 `@exclude` 在页面加载时排除协作文档 / 编辑器站点（kdocs、Google Docs、Notion、wolai、语雀 `/edit`、写作猫、mail 等），`@noframes` 不在 iframe 中运行。2.3.5 起另有运行时防护：每次鼠标事件都检查可编辑区与输入框，命中直接跳过——SPA 内部跳到编辑页、以及名单外的在线文档站点也能挡住。
 - 元数据里不要留 `example.com` 之类的占位 URL：Tampermonkey 的 BlackCheck 按来源 URL 匹配黑名单，命中后脚本开关会变灰且无法启用（Q303）。2.3.0 曾因此踩过坑，2.3.1 起已换成真实直链。
 
 ## 目录

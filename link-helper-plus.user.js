@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            链接助手（增强版）
 // @namespace       https://github.com/YU1O/link-helper-plus
-// @version         2.3.4
+// @version         2.3.5
 // @description     基于 一个北七 的「链接助手」改造：网盘提取码自动识别与填写；文本转链接；新标签打开链接
 // @author          一个北七, YU1O
 // @icon            https://gitee.com/oneNorth7/pics/raw/master/picgo/link-helper.png
@@ -91,6 +91,19 @@
  *   调整：按用户要求去掉转换链接的淡蓝背景色与圆角，只保留蓝色文字 + 下划线；
  *         hover / focus 仍只加深文字与下划线颜色，深色模式配色不变。
  *         页面背景不再被脚本改动，避免与站点自身的底色 / 代码块 / 引用块冲突。
+ * 2.3.5 (2026-11-09) 编辑器防护与发版方式
+ *   防护：新增 isEditableContext()，在 mousedown / mouseup 两个入口检查
+ *         designMode、isContentEditable、contenteditable 属性、role=textbox、
+ *         input / textarea / select，命中直接放过。原先只有 9 条 @exclude，
+ *         且只在页面加载时判定一次：SPA 内部跳到编辑页不刷新页面，名单外的
+ *         在线文档站点也拦不住；在编辑器里 replaceWith 会破坏内容模型、
+ *         选区与撤销栈，甚至把改动同步到服务端。
+ *   发版：两个 URL 字段维持 jsDelivr @main，另给每次发版打 v<版本> tag 便于
+ *         回溯。把地址写死成某个版本 tag 是错误的——客户端取到的 @version
+ *         永远不变，会一直认为没有新版本；GitHub Releases 的 latest 地址虽能
+ *         绕开 CDN 缓存，但每版都要建 Release 与上传资产，本项目不采用。
+ *         推送后调 purge.jsdelivr.net 刷缓存即可，个别边缘节点同步较慢时
+ *         在编辑器里粘贴一次。
  */
 
 (function () {
@@ -892,6 +905,28 @@
         return null;
     }
 
+    /* 运行时可编辑区防护（2.3.5）
+     * @exclude 只在页面加载时判定一次：SPA 从阅读页跳到编辑页不刷新页面，
+     * 名单外的在线文档站点也拦不住，脚本早就注入并绑好了全局监听。
+     * 在编辑器里替换 DOM 会破坏它自己的内容模型、选区与撤销栈，甚至把改动
+     * 同步到服务端。因此两个事件入口都先挡一道，黑名单只用来省注入成本。 */
+    function isEditableContext(target) {
+        if (!target) return false;
+        if (document.designMode === "on") return true;
+        let el = target.nodeType === 3 ? target.parentElement : target;
+        for (let i = 0; el && i < 6; i++, el = el.parentElement) {
+            if (el.nodeType !== 1) break;
+            if (el.isContentEditable) return true;
+            if (typeof el.getAttribute === "function") {
+                if (el.getAttribute("contenteditable") === "true") return true;
+                if (el.getAttribute("role") === "textbox") return true;
+            }
+            const tag = el.localName;
+            if (tag === "input" || tag === "textarea" || tag === "select") return true;
+        }
+        return false;
+    }
+
     /* 属性级处理：只改 href / target，不动节点结构，任意时机调用都安全 */
     function touchAnchor(a) {
         if (!(a instanceof HTMLAnchorElement) || !a.href) return;
@@ -908,6 +943,7 @@
     }
 
     function onMouseDown(ev) {
+        if (isEditableContext(ev.target)) return;
         if (ev.button === 0) pressPoint = { x: ev.clientX, y: ev.clientY };
         // 右键 / 中键也处理：改的是 href，不影响选区，
         // 这样右键「复制链接地址」拿到的仍是带提取码的链接。
@@ -916,9 +952,10 @@
     }
 
     function onMouseUp(ev) {
-        if (ev.button !== 0) return;
         const start = pressPoint;
         pressPoint = null;
+        if (isEditableContext(ev.target)) return;
+        if (ev.button !== 0) return;
         if (start && (Math.abs(ev.clientX - start.x) > DRAG_TOLERANCE || Math.abs(ev.clientY - start.y) > DRAG_TOLERANCE)) {
             return; // 拖选 / 拖拽：放过，别把用户刚选中的文本换成链接
         }
