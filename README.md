@@ -21,7 +21,7 @@
 
 - 每次发版**必须递增 `@version`**，管理器靠版本号判断是否有更新，只改内容不改号不会拉取；
 - 每次发版另外打一个 `v<版本号>` 的 tag，用来回溯任意一版。tag 不参与更新地址——把地址写死成某个版本 tag，客户端取到的 `@version` 永远不变，自动更新会直接失效；
-- jsDelivr 的 `@main` 约有 12 小时缓存。推送后打开 <https://purge.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper-plus.user.js> 刷新一次，一般立刻生效；个别边缘节点同步较慢时，在管理器编辑器里粘贴一次即可；
+- jsDelivr 的 `@main` 约有 12 小时缓存，连「分支 → 提交」的解析结果也一起缓存。推送后可打开 <https://purge.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper-plus.user.js> 刷新，但实测不保证立刻生效；想马上用上新内容，最可靠的是在管理器编辑器里粘贴一次，等缓存自然过期后自动更新会恢复；
 - 若从 GreasyFork 安装，GreasyFork 会剥掉这两个字段并接管更新，请以那边为准。
 
 ## 功能
