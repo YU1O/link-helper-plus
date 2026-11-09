@@ -1,6 +1,6 @@
 # link-helper-plus
 
-基于 [一个北七 的「链接助手」](https://github.com/oneNorth7/LinkHelper) 2.1.2 改造，遵循 GPL-3.0。
+基于 [一个北七 的「链接助手」](https://github.com/oneNorth7/LinkHelper) 改造，遵循 GPL-3.0。
 
 ## 安装
 Tampermonkey 新建脚本并粘贴 `link-helper.user.js`，或直接打开
