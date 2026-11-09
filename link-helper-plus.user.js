@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            链接助手（增强版）
 // @namespace       https://github.com/YU1O/link-helper-plus
-// @version         2.3.3
+// @version         2.3.4
 // @description     基于 一个北七 的「链接助手」改造：网盘提取码自动识别与填写；文本转链接；新标签打开链接
 // @author          一个北七, YU1O
 // @icon            https://gitee.com/oneNorth7/pics/raw/master/picgo/link-helper.png
@@ -87,6 +87,10 @@
  *         肉眼却看不出来」。现在补上蓝色文字 + 下划线 + 淡蓝底高亮，用高特异度
  *         与 important 压过站点规则；深色模式另配浅蓝，hover / focus 再加深。
  *         只作用于 a.text2Link，不影响页面原有的任何链接。
+ * 2.3.4 (2026-11-09) 链接样式收敛
+ *   调整：按用户要求去掉转换链接的淡蓝背景色与圆角，只保留蓝色文字 + 下划线；
+ *         hover / focus 仍只加深文字与下划线颜色，深色模式配色不变。
+ *         页面背景不再被脚本改动，避免与站点自身的底色 / 代码块 / 引用块冲突。
  */
 
 (function () {
@@ -1079,32 +1083,26 @@
 
     const style = `
         /* 文本转链接生成的可视标识：站点常把 a 的颜色与下划线覆盖掉，
-           这里用高特异度保证「蓝色 + 下划线 + 淡蓝高亮」稳定生效，
+           这里用高特异度保证「蓝色 + 下划线」稳定生效，不加背景色，
            选择器只命中脚本自己生成的 a.text2Link，不碰页面原有链接。 */
         a.text2Link, a.text2Link:visited {
             color: #1a73e8 !important;
             text-decoration: underline !important;
             text-decoration-color: #1a73e8 !important;
             text-underline-offset: 2px;
-            background-color: rgba(26, 115, 232, .12) !important;
-            border-radius: 2px;
-            cursor: pointer;
         }
         a.text2Link:hover, a.text2Link:focus {
             color: #0b57d0 !important;
             text-decoration-color: #0b57d0 !important;
-            background-color: rgba(26, 115, 232, .24) !important;
         }
         @media (prefers-color-scheme: dark) {
             a.text2Link, a.text2Link:visited {
                 color: #8ab4f8 !important;
                 text-decoration-color: #8ab4f8 !important;
-                background-color: rgba(138, 180, 248, .14) !important;
             }
             a.text2Link:hover, a.text2Link:focus {
                 color: #aecbfa !important;
                 text-decoration-color: #aecbfa !important;
-                background-color: rgba(138, 180, 248, .26) !important;
             }
         }
         .lh-dialog { padding: 0; border: 0; border-radius: 12px; width: min(430px, calc(100vw - 32px)); background: #fff; color: #1f2329; box-shadow: 0 18px 48px rgba(0, 0, 0, .3); font: 15px/1.5 'Microsoft Yahei', arial, helvetica, sans-serif; }
