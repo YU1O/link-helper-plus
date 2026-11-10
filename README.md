@@ -11,7 +11,7 @@
 ## 目录结构
 
 ```
-README.md                                 脚本索引 + 仓库约定（本文件）
+README.md                                 脚本索引
 LICENSE                                    GPL-3.0 全文（全仓共用）
 scripts/
 └── link-helper-plus/
