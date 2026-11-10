@@ -1,6 +1,6 @@
 # userscripts
 
-YU1O 的用户脚本合集（Tampermonkey / Violentmonkey / 脚本猫），GPL-3.0。仓库里可以放多个互相独立的脚本，每个脚本自己管理版本与更新地址。
+YU1O 的用户脚本合集（Tampermonkey / Violentmonkey / 脚本猫），GPL-3.0。
 
 ## 脚本列表
 
@@ -16,16 +16,6 @@ YU1O 的用户脚本合集（Tampermonkey / Violentmonkey / 脚本猫），GPL-3
 - 发版 tag 用 `<脚本名>-v<版本>` 前缀，避免多脚本共仓时版本号撞车。
 - 根 `LICENSE` 为 GPL-3.0；若个别脚本采用不同许可，在该脚本目录内单独声明。
 
-## 仓库改名与迁移（2026-11-10）
-
-原仓库名 `link-helper-plus` 改为通用的 `userscripts`。以下是 2026-11-10 改名后的实测结果：
-
-- GitHub 网页 / API / raw 的旧地址会自动指到新仓库；**jsDelivr 的旧 `/gh/` 地址也直接返回 200，内容就是新仓库的 2.3.6**，没有对外 301。也就是说 jsDelivr 在解析仓库时已跟随 GitHub 的仓库重定向，先前担心的「旧地址 404」并未发生。
-- 因此已安装链接助手的用户**通常不需要手动操作**：`@version` 从 2.3.5 升到 2.3.6，管理器检查更新会拉到新版，而新版头部两个 URL 已指向新仓库，之后自动走新地址。
-- 仍建议在管理器里把两个 URL 改成上表的新地址（或粘贴一次 2.3.6 全文）：改名后旧仓库名会被释放，一旦被别人注册，GitHub 的旧名重定向随即失效；依赖隐式跳转也不利于以后排障。
-- `@namespace` 刻意保留旧字符串不动：它只是管理器的身份标识，不解析也不访问；改掉会被当成新脚本，8 项 `GM_setValue` 配置全部丢失，还可能出现两份同名脚本。
-- 历史 tag（`v2.3.5` 及以前）保持不动，仍可回溯任意一版。
-
 ---
 
 ## 链接助手（增强版）
@@ -40,15 +30,6 @@ YU1O 的用户脚本合集（Tampermonkey / Violentmonkey / 脚本猫），GPL-3
 - GitHub raw：<https://raw.githubusercontent.com/YU1O/userscripts/main/link-helper-plus.user.js>
 
 也可以在管理器里「新建脚本」，把 `link-helper-plus.user.js` 全文粘贴后保存。
-
-### 自动更新
-
-脚本头部同时声明了 `@updateURL` 与 `@downloadURL`，均指向上述 jsDelivr 地址。
-
-- 每次发版**必须递增 `@version`**，管理器靠版本号判断是否有更新，只改内容不改号不会拉取；
-- 每次发版另外打一个 `link-helper-plus-v<版本号>` 的 tag 用来回溯任意一版。tag 不参与更新地址；
-- jsDelivr 的 `@main` 约有 12 小时缓存，连「分支 → 提交」的解析结果也一起缓存。推送后可打开 <https://purge.jsdelivr.net/gh/YU1O/userscripts@main/link-helper-plus.user.js> 刷新，但实测不保证立刻生效；想马上用上新内容，最可靠的是在管理器编辑器里粘贴一次，等缓存自然过期后自动更新会恢复；
-- 若从 GreasyFork 安装，GreasyFork 会剥掉这两个字段并接管更新，请以那边为准。
 
 ### 功能
 
