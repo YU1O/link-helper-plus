@@ -22,4 +22,4 @@ scripts/
 
 ## 许可
 
-GPL-3.0。链接助手原作者「一个北七」，改造与维护 YU1O；原作者署名、`@icon` 与许可证声明均予保留，全文见 [LICENSE](LICENSE)。
+GPL-3.0。改造与维护 YU1O，全文见 [LICENSE](LICENSE)。
