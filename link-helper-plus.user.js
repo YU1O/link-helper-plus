@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            链接助手（增强版）
 // @namespace       https://github.com/YU1O/link-helper-plus
-// @version         2.3.5
+// @version         2.3.6
 // @description     基于 一个北七 的「链接助手」改造：网盘提取码自动识别与填写；文本转链接；新标签打开链接
 // @author          一个北七, YU1O
 // @icon            https://gitee.com/oneNorth7/pics/raw/master/picgo/link-helper.png
@@ -26,8 +26,8 @@
 // @grant           GM_getValue
 // @grant           GM_deleteValue
 // @grant           GM_addStyle
-// @updateURL       https://cdn.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper-plus.user.js
-// @downloadURL     https://cdn.jsdelivr.net/gh/YU1O/link-helper-plus@main/link-helper-plus.user.js
+// @updateURL       https://cdn.jsdelivr.net/gh/YU1O/userscripts@main/link-helper-plus.user.js
+// @downloadURL     https://cdn.jsdelivr.net/gh/YU1O/userscripts@main/link-helper-plus.user.js
 // ==/UserScript==
 
 /*
@@ -104,6 +104,16 @@
  *         绕开 CDN 缓存，但每版都要建 Release 与上传资产，本项目不采用。
  *         推送后调 purge.jsdelivr.net 刷缓存即可，个别边缘节点同步较慢时
  *         在编辑器里粘贴一次。
+ * 2.3.6 (2026-11-10) 仓库改名与更新地址迁移
+ *   迁移：仓库由 link-helper-plus 改名为 userscripts，成为多脚本合集仓库。
+ *         @updateURL / @downloadURL 同步指向新仓库的 jsDelivr 地址。
+ *         jsDelivr 的 /gh/ 路径按仓库名原样解析，不跟随 GitHub 的仓库重定向，
+ *         旧地址会 404，故已安装用户需在编辑器里粘贴一次本文件（或手动改
+ *         两个 URL 字段），之后自动更新恢复；代码正文未改动。
+ *   身份：@namespace 保持不变。它只是管理器的身份字符串，不解析、不访问；
+ *         改掉会被当成新脚本，GM_setValue 存的 8 项配置全部丢失，还可能
+ *         出现两份同名脚本。字符串里带旧仓库名不影响功能。
+ *   版本：@version 递增到 2.3.6，保证粘贴与后续检查更新都被识别为新版本。
  */
 
 (function () {
